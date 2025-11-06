@@ -1,6 +1,6 @@
-# Claude Code Development Containers
+# AI Development Containers
 
-This repository contains Docker-based development environments for Claude Code, providing ready-to-use containers for different programming languages and frameworks.
+This repository contains Docker-based development environments for various AI coding assistants, providing ready-to-use containers for different programming languages and frameworks.
 
 ## Available Containers
 
@@ -68,6 +68,45 @@ chmod +x run-claude.sh
 ./run-claude.sh
 ```
 
+### GitHub Copilot Container (`copilot/`)
+Development environment with GitHub Copilot CLI.
+
+**Includes:**
+- Node.js (LTS)
+- npm
+- GitHub Copilot CLI
+- Git
+
+**Usage:**
+```bash
+cd copilot
+chmod +x run-copilot.sh
+./run-copilot.sh
+```
+
+**Note:** You'll need to authenticate with GitHub Copilot on first run.
+
+### OpenAI Codex Container (`codex/`)
+Development environment with OpenAI SDK for accessing Codex API.
+
+**Includes:**
+- Node.js (LTS)
+- Python 3
+- OpenAI Python SDK
+- OpenAI Node.js SDK
+- pip & npm
+- Git
+
+**Usage:**
+```bash
+cd codex
+chmod +x run-codex.sh
+export OPENAI_API_KEY="your-api-key-here"
+./run-codex.sh
+```
+
+**Note:** Requires an OpenAI API key set in the `OPENAI_API_KEY` environment variable.
+
 ## How It Works
 
 Each container:
@@ -99,6 +138,12 @@ docker build -t claude-python python/
 # For TypeScript container
 docker build -t claude-typescript typescript/
 
+# For Copilot container
+docker build -t copilot-dev copilot/
+
+# For Codex container
+docker build -t codex-dev codex/
+
 # For base container
 docker build -t claude-dev claude/
 ```
@@ -108,18 +153,34 @@ docker build -t claude-dev claude/
 You can also run containers manually with custom settings:
 
 ```bash
+# Claude containers
 docker run -it --rm \
     -v "$(pwd)":/workspace \
     -v "$HOME/.claude":/home/claude/.claude \
     -v "$HOME/.claude.json":/home/claude/.claude.json \
     -v "$HOME/.config/claude-code":/home/claude/.config/claude-code \
     claude-dotnet  # or claude-python, claude-typescript, claude-dev
+
+# Copilot container
+docker run -it --rm \
+    -v "$(pwd)":/workspace \
+    -v "$HOME/.config/github-copilot":/home/copilot/.config/github-copilot \
+    copilot-dev
+
+# Codex container
+docker run -it --rm \
+    -v "$(pwd)":/workspace \
+    -v "$HOME/.openai":/home/codex/.openai \
+    -e OPENAI_API_KEY \
+    codex-dev
 ```
 
 ## Requirements
 
 - Docker installed and running
-- Claude Code authentication token (set up via `claude` command)
+- For Claude containers: Claude Code authentication token (set up via `claude` command)
+- For Copilot container: GitHub Copilot subscription and authentication
+- For Codex container: OpenAI API key with Codex access
 
 ## License
 
