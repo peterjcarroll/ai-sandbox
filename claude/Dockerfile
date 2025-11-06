@@ -20,7 +20,7 @@ RUN node --version && npm --version && claude --version
 
 # Create a non-root user
 RUN useradd -m -u 1000 -s /bin/bash claude && \
-    mkdir -p /home/claude/.claude && \
+    mkdir -p /home/claude/.claude /home/claude/.config/claude-code && \
     chown -R claude:claude /home/claude
 
 # Set working directory
