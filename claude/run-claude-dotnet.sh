@@ -1,9 +1,22 @@
 #!/bin/bash
 
-# Build the Docker image if it doesn't exist
-if ! docker image inspect claude-dotnet >/dev/null 2>&1; then
+# Parse flags
+REBUILD=false
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        --rebuild) REBUILD=true; shift ;;
+        *) break ;;
+    esac
+done
+
+# Build the Docker image if it doesn't exist or if rebuild is forced
+if [ "$REBUILD" = true ] || ! docker image inspect claude-dotnet >/dev/null 2>&1; then
     echo "Building claude-dotnet image..."
-    docker build -t claude-dotnet "$(dirname "$0")/dotnet"
+    if [ "$REBUILD" = true ]; then
+        docker build --pull -t claude-dotnet "$(dirname "$0")/dotnet"
+    else
+        docker build -t claude-dotnet "$(dirname "$0")/dotnet"
+    fi
 fi
 
 # Create Claude Code config directory if it doesn't exist

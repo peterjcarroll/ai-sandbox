@@ -1,9 +1,22 @@
 #!/bin/bash
 
-# Build the Docker image if it doesn't exist
-if ! docker image inspect claude-typescript >/dev/null 2>&1; then
+# Parse flags
+REBUILD=false
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        --rebuild) REBUILD=true; shift ;;
+        *) break ;;
+    esac
+done
+
+# Build the Docker image if it doesn't exist or if rebuild is forced
+if [ "$REBUILD" = true ] || ! docker image inspect claude-typescript >/dev/null 2>&1; then
     echo "Building claude-typescript image..."
-    docker build -t claude-typescript "$(dirname "$0")/typescript"
+    if [ "$REBUILD" = true ]; then
+        docker build --pull --no-cache -t claude-typescript "$(dirname "$0")/typescript"
+    else
+        docker build -t claude-typescript "$(dirname "$0")/typescript"
+    fi
 fi
 
 # Create Claude Code config directory if it doesn't exist
