@@ -27,8 +27,10 @@ ENV VIRTUAL_ENV=/opt/venv
 ENV PATH="${VIRTUAL_ENV}/bin:${PATH}"
 RUN python3 -m venv "${VIRTUAL_ENV}" \
     && python -m pip install --no-cache-dir --upgrade pip \
-    && python -m pip install --no-cache-dir openai \
-    && cat <<'EOF' >/usr/local/bin/codex
+    && python -m pip install --no-cache-dir openai
+
+# Create codex script
+RUN cat <<'EOF' >/usr/local/bin/codex
 #!/opt/venv/bin/python
 import os
 import sys
@@ -105,7 +107,9 @@ if __name__ == "__main__":
     else:
         run_interactive()
 EOF
-    && chmod +x /usr/local/bin/codex
+
+# Make codex script executable
+RUN chmod +x /usr/local/bin/codex
 
 # Install OpenAI Node.js SDK globally
 RUN npm install -g openai
