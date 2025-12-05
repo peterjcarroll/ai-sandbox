@@ -21,12 +21,10 @@ if [ "$REBUILD" = true ] || ! docker image inspect codex-dev >/dev/null 2>&1; th
 fi
 
 # Create OpenAI config directory if it doesn't exist
-mkdir -p "$HOME/.openai"
+mkdir -p "$HOME/.codex"
 
 # Run the container with mounted volumes
-# Note: Set OPENAI_API_KEY environment variable before running
 docker run -it --rm \
     -v "$(pwd)":/workspace \
-    -v "$HOME/.openai":/home/codex/.openai \
-    -e OPENAI_API_KEY \
-    codex-dev "${ARGS[@]}"
+    -v "$HOME/.codex":/home/codex/.codex \
+    codex-dev

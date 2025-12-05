@@ -5,7 +5,6 @@ RUN apt-get update && apt-get install -y \
     curl \
     ca-certificates \
     gnupg \
-    git \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Node.js and npm (using NodeSource repository for latest LTS)
@@ -14,14 +13,14 @@ RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
     && rm -rf /var/lib/apt/lists/*
 
 # Install GitHub Copilot CLI globally
-RUN npm install -g @githubnext/github-copilot-cli
+RUN npm i -g @github/copilot
 
 # Verify installations
-RUN node --version && npm --version && github-copilot-cli --version
+RUN node --version && npm --version && copilot --version
 
 # Create a non-root user
 RUN useradd -m -u 1000 -s /bin/bash copilot && \
-    mkdir -p /home/copilot/.config && \
+    mkdir -p /home/copilot/.copilot && \
     chown -R copilot:copilot /home/copilot
 
 # Set working directory
@@ -31,4 +30,4 @@ WORKDIR /workspace
 USER copilot
 
 # Default command - run GitHub Copilot CLI
-CMD ["github-copilot-cli"]
+CMD ["copilot", "--allow-all-tools"]

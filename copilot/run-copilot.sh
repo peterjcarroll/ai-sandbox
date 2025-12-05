@@ -20,12 +20,10 @@ if [ "$REBUILD" = true ] || ! docker image inspect copilot-dev >/dev/null 2>&1; 
 fi
 
 # Create GitHub Copilot config directory if it doesn't exist
-mkdir -p "$HOME/.config/github-copilot"
+mkdir -p "$HOME/.copilot"
 
 # Run the container with mounted volumes
 docker run -it --rm \
     -v "$(pwd)":/workspace \
-    -v "$HOME/.config/github-copilot":/home/copilot/.config/github-copilot \
-    -v "$HOME/.gitconfig":/home/copilot/.gitconfig:ro \
-    -v "$HOME/.ssh":/home/copilot/.ssh:ro \
+    -v "$HOME/.copilot":/home/copilot/.copilot \
     copilot-dev
