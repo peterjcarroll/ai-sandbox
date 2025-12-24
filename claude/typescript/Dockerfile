@@ -35,4 +35,5 @@ WORKDIR /workspace
 USER claude
 
 # Default command - run Claude Code
-CMD ["claude"]
+CMD ["claude", "--dangerously-skip-permissions"]
+
