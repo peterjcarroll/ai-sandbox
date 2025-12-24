@@ -29,6 +29,7 @@ Run any container using the appropriate script from the repository root:
 # Claude containers
 ./claude/run-claude.sh                    # Base (Node.js only)
 ./claude/run-claude-python.sh             # Python environment
+./claude/run-claude-python-gabc.sh        # Python + GABC/LaTeX tools
 ./claude/run-claude-dotnet.sh             # .NET environment
 ./claude/run-claude-typescript.sh         # TypeScript environment
 
@@ -60,6 +61,7 @@ Manual rebuild commands for each image:
 # Claude images
 docker build -t claude-dev claude/
 docker build -t claude-python claude/python/
+docker build -t claude-python-gabc claude/python-gabc/
 docker build -t claude-dotnet claude/dotnet/
 docker build -t claude-typescript claude/typescript/
 
@@ -138,6 +140,14 @@ Each container runs its respective CLI automatically:
 ### Python Containers
 - Install python3, pip, venv, build-essential for package compilation
 - Create symlinks: `/usr/bin/python` → `python3`, `/usr/bin/pip` → `pip3`
+
+#### Python GABC Variant (`python-gabc/`)
+Specialized Python container for GABC (Gregorian chant) neume colorization projects:
+- All standard Python container features
+- **LaTeX packages**: texlive-luatex, texlive-music (includes GregorioTeX)
+- **PDF tools**: pdf2svg for converting PDFs to SVG
+- **Python packages**: svgpathtools, lxml, Pillow for SVG manipulation
+- Used for working with Gregorian chant notation and liturgical music typesetting
 
 ### TypeScript Containers
 - Install TypeScript, ts-node, @types/node globally via npm

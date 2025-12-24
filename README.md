@@ -51,6 +51,35 @@ chmod +x run-claude.sh
 ./run-claude.sh
 ```
 
+### Python GABC Development Container (`python-gabc/`)
+Specialized Python environment for GABC (Gregorian chant) neume colorization and liturgical music typesetting.
+
+**Includes:**
+- Everything from Python container
+- **LaTeX Distribution:**
+  - texlive-luatex (LuaLaTeX compiler)
+  - texlive-music (GregorioTeX for Gregorian chant notation)
+  - texlive-latex-extra (additional LaTeX packages)
+  - texlive-fonts-recommended (recommended fonts)
+- **PDF Tools:**
+  - pdf2svg (PDF to SVG conversion)
+- **Python Libraries:**
+  - svgpathtools (SVG path manipulation)
+  - lxml (XML/HTML processing)
+  - Pillow (image processing)
+
+**Usage:**
+```bash
+cd python-gabc
+chmod +x run-claude.sh
+./run-claude.sh
+```
+
+Or from repository root:
+```bash
+./claude/run-claude-python-gabc.sh
+```
+
 ### TypeScript Development Container (`typescript/`)
 TypeScript and Node.js development environment with Claude Code.
 
@@ -135,6 +164,9 @@ docker build -t claude-dotnet dotnet/
 # For Python container
 docker build -t claude-python python/
 
+# For Python GABC container
+docker build -t claude-python-gabc python-gabc/
+
 # For TypeScript container
 docker build -t claude-typescript typescript/
 
@@ -159,7 +191,7 @@ docker run -it --rm \
     -v "$HOME/.claude":/home/claude/.claude \
     -v "$HOME/.claude.json":/home/claude/.claude.json \
     -v "$HOME/.config/claude-code":/home/claude/.config/claude-code \
-    claude-dotnet  # or claude-python, claude-typescript, claude-dev
+    claude-dotnet  # or claude-python, claude-python-gabc, claude-typescript, claude-dev
 
 # Copilot container
 docker run -it --rm \
