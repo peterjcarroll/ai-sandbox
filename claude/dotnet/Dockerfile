@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
     gnupg \
     wget \
     git \
+    libicu72 \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Node.js and npm (using NodeSource repository for latest LTS)

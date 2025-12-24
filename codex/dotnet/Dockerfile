@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y \
     gnupg \
     git \
     wget \
+    libicu72 \
     python3 \
     python3-pip \
     python3-venv \
@@ -15,8 +16,8 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Create symlinks for python and pip
-RUN ln -s /usr/bin/python3 /usr/bin/python && \
-    ln -s /usr/bin/pip3 /usr/bin/pip
+RUN ln -sf /usr/bin/python3 /usr/bin/python && \
+    ln -sf /usr/bin/pip3 /usr/bin/pip
 
 # Install Node.js and npm (using NodeSource repository for latest LTS)
 RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
@@ -31,7 +32,7 @@ RUN wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh \
     && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
 
 # Install OpenAI Python SDK globally
-RUN pip install --no-cache-dir openai
+RUN pip install --break-system-packages --no-cache-dir openai
 
 # Install OpenAI Node.js SDK globally
 RUN npm install -g openai
