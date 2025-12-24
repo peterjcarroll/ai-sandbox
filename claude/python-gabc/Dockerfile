@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     texlive-latex-extra \
     texlive-fonts-recommended \
     pdf2svg \
+    imagemagick \
     && rm -rf /var/lib/apt/lists/*
 
 # Create symlinks for python and pip
