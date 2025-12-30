@@ -28,18 +28,15 @@ RUN npm install -g \
     ts-node \
     @types/node
 
-# Install OpenAI Python SDK globally
-RUN pip install --break-system-packages --no-cache-dir openai
-
-# Install OpenAI Node.js SDK globally
-RUN npm install -g openai
+# Install Codex CLI globally
+RUN npm install -g @openai/codex@latest
 
 # Verify installations
-RUN node --version && npm --version && tsc --version && python --version && pip --version
+RUN node --version && npm --version && tsc --version && python --version && pip --version && codex --version
 
 # Create a non-root user
 RUN useradd -m -u 1000 -s /bin/bash codex && \
-    mkdir -p /home/codex/.config && \
+    mkdir -p /home/codex/.codex && \
     chown -R codex:codex /home/codex
 
 # Set working directory
@@ -48,5 +45,5 @@ WORKDIR /workspace
 # Switch to non-root user
 USER codex
 
-# Default command - start bash shell
-CMD ["/bin/bash"]
+# Default command - run Codex
+CMD ["codex", "--dangerously-bypass-approvals-and-sandbox"]

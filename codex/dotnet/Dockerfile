@@ -31,18 +31,15 @@ RUN wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh \
     && rm dotnet-install.sh \
     && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
 
-# Install OpenAI Python SDK globally
-RUN pip install --break-system-packages --no-cache-dir openai
-
-# Install OpenAI Node.js SDK globally
-RUN npm install -g openai
+# Install Codex CLI globally
+RUN npm install -g @openai/codex@latest
 
 # Verify installations
-RUN node --version && npm --version && python --version && pip --version && dotnet --version
+RUN node --version && npm --version && python --version && pip --version && dotnet --version && codex --version
 
 # Create a non-root user
 RUN useradd -m -u 1000 -s /bin/bash codex && \
-    mkdir -p /home/codex/.config && \
+    mkdir -p /home/codex/.codex && \
     chown -R codex:codex /home/codex
 
 # Set up .NET environment variables
@@ -55,5 +52,5 @@ WORKDIR /workspace
 # Switch to non-root user
 USER codex
 
-# Default command - start bash shell
-CMD ["/bin/bash"]
+# Default command - run Codex
+CMD ["codex", "--dangerously-bypass-approvals-and-sandbox"]
