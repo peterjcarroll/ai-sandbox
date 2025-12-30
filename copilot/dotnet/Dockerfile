@@ -23,14 +23,14 @@ RUN wget https://dot.net/v1/dotnet-install.sh -O dotnet-install.sh \
     && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
 
 # Install GitHub Copilot CLI globally
-RUN npm install -g @githubnext/github-copilot-cli
+RUN npm i -g @github/copilot
 
 # Verify installations
-RUN node --version && npm --version && dotnet --version && github-copilot-cli --version
+RUN node --version && npm --version && dotnet --version && copilot --version
 
 # Create a non-root user
 RUN useradd -m -u 1000 -s /bin/bash copilot && \
-    mkdir -p /home/copilot/.config && \
+    mkdir -p /home/copilot/.copilot && \
     chown -R copilot:copilot /home/copilot
 
 # Set up .NET environment variables
@@ -44,4 +44,4 @@ WORKDIR /workspace
 USER copilot
 
 # Default command - run GitHub Copilot CLI
-CMD ["github-copilot-cli"]
+CMD ["copilot", "--allow-all-tools"]
